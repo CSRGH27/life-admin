@@ -40,9 +40,38 @@ class User implements UserInterface
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
-     * @Assert\NotBlank(message="Le mot de passe doit etre renseigne")
+     * @Assert\NotBlank(message="Le mot de passe doit etre renseigné")
      */
     private $password;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Votre prénom doit etre renseigné")
+     * @Assert\Length(min=2,
+     *                minMessage="Votre prénom ne doit faire au moins {{ limit }} caractères" ,
+     *                max=20,
+     *                maxMessage="Votre prénom ne doit faire au maximum {{ limit }} caractères" 
+     *                )
+     *                  
+     */
+    private $firstname;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Votre nom doit etre renseigné")
+     * @Assert\Length(min=2,
+     *                minMessage="Votre nom ne doit faire au moins {{ limit }} caractères" ,
+     *                max=20,
+     *                maxMessage="Votre nom ne doit faire au maximum {{ limit }} caractères" 
+     *                )
+     */
+    private $name;
+
+    /**
+     * @ORM\Column(type="date")
+     * @Assert\NotNull(message="Votre date de naissance doit etre renseigné")
+     */
+    private $birthdate;
 
     public function getId(): ?int
     {
@@ -120,5 +149,41 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getFirstname(): ?string
+    {
+        return $this->firstname;
+    }
+
+    public function setFirstname(string $firstname): self
+    {
+        $this->firstname = $firstname;
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getBirthdate(): ?\DateTimeInterface
+    {
+        return $this->birthdate;
+    }
+
+    public function setBirthdate(\DateTimeInterface $birthdate): self
+    {
+        $this->birthdate = $birthdate;
+
+        return $this;
     }
 }

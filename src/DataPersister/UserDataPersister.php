@@ -28,6 +28,7 @@ final class UserDataPersister implements ContextAwareDataPersisterInterface
 
     public function persist($data, array $context = [])
     {
+
         $data->setPassword($this->encoder->encodePassword($data, $data->getPassword()));
         $this->em->persist($data);
         $this->em->flush();
