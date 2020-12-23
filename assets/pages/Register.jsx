@@ -1,8 +1,10 @@
 import { Button, TextField } from "@material-ui/core";
+import { KeyboardArrowLeft } from "@material-ui/icons";
 import Axios from "axios";
 import "csshake/dist/csshake.min.css";
 import $ from "jquery";
 import React, { useState } from "react";
+import { NavLink } from "react-router-dom";
 import { toast } from "react-toastify";
 import { REG_URL_API } from "../config";
 
@@ -71,12 +73,12 @@ const Register = ({ history }) => {
     }
   };
   return (
-    <div className="ctn_form ctn_form_log">
-      <div className="modal_form_register">
-        <div className="header_form_log">
+    <div className="ctn_form ctn_form_reg">
+      <div className="modal_form">
+        <div className="header_form_modal">
           <h3>Créer votre compte</h3>
         </div>
-        <div className="body_form_register">
+        <div className="body_form_modal">
           <form onSubmit={handleSubmit}>
             {errors.email ? (
               <TextField
@@ -207,15 +209,22 @@ const Register = ({ history }) => {
                 }}
               />
             )}
+            <div className="footer_form_modal">
+              <NavLink to="/login">
+                <Button startIcon={<KeyboardArrowLeft />} color="primary">
+                  Connectez vous
+                </Button>
+              </NavLink>
 
-            <Button
-              className="btn_form_register"
-              variant="contained"
-              color="secondary"
-              type="submit"
-            >
-              Inscription
-            </Button>
+              <Button
+                className="btn_form_register"
+                variant="contained"
+                color="secondary"
+                type="submit"
+              >
+                Inscription
+              </Button>
+            </div>
           </form>
         </div>
       </div>
