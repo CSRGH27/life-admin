@@ -1,9 +1,12 @@
 import React from "react";
+import Sidebar from "../components/Sidebar";
 
-const AdminHome = () => {
+const AdminHome = ({ authenticated, onLogin, history }) => {
   return (
     <>
-      <h1>Homepage</h1>
+      <div className="admin_cte">
+        <Sidebar onLogin={onLogin} history={history}></Sidebar>
+      </div>
     </>
   );
 };

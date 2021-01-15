@@ -4,15 +4,17 @@ import { LOG_URL_API } from "../config";
 
 function logout() {
   window.localStorage.removeItem("authToken");
+  window.localStorage.removeItem("idUser");
   delete Axios.defaults.headers["Authorization"];
 }
 
 function authenticate(credentials) {
   return Axios.post(LOG_URL_API, credentials)
-    .then((response) => response.data.token)
-    .then((token) => {
-      window.localStorage.setItem("authToken", token);
-      setAxiosToken(token);
+    .then((response) => response.data)
+    .then((data) => {
+      window.localStorage.setItem("idUser", data.user.id);
+      window.localStorage.setItem("authToken", data.token);
+      setAxiosToken(data.token);
     });
 }
 
