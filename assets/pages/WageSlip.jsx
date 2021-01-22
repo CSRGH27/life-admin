@@ -1,9 +1,12 @@
 import React from "react";
+import Sidebar from "../components/Sidebar";
 
 const WageSlip = () => {
   return (
     <>
-      <h1>tets</h1>
+      <div className="admin_cte">
+        <Sidebar history={history}></Sidebar>
+      </div>
     </>
   );
 };

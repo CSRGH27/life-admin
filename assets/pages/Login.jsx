@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { TextField, Button } from "@material-ui/core";
 import "csshake/dist/csshake.min.css";
 import $ from "jquery";
@@ -6,8 +6,16 @@ import { toast } from "react-toastify";
 import AuthApi from "../services/AuthApi";
 import { NavLink } from "react-router-dom";
 import { KeyboardArrowLeft } from "@material-ui/icons";
+import AuthContext from "../contexts/AuthContext";
 
-const Login = ({ history, onLogin }) => {
+const Login = ({ history }) => {
+  const [credentials, setCredentials] = useState({
+    username: "",
+    password: "",
+  });
+
+  const { setAuthenticated } = useContext(AuthContext);
+
   const shakeError = () => {
     $(".modal_register_form").addClass("shake-horizontal shake-constant");
     setTimeout(() => {
@@ -15,18 +23,12 @@ const Login = ({ history, onLogin }) => {
     }, 500);
   };
 
-  const [credentials, setCredentials] = useState({
-    username: "",
-    password: "",
-  });
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await AuthApi.authenticate(credentials);
-      console.log(history);
       history.replace("/adminHome");
-      onLogin(true);
+      setAuthenticated(true);
       toast.success("Vous etes maintenant connecte ! 😎");
     } catch (error) {
       if (error.response) {

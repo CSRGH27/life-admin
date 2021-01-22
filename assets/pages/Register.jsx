@@ -10,7 +10,6 @@ import { REG_URL_API } from "../config";
 
 const Register = ({ history }) => {
   const shakeError = () => {
-    console.log("test");
     $(".modal_form_register").addClass("shake-horizontal shake-constant");
     setTimeout(() => {
       $(".modal_form_register").removeClass("shake-horizontal shake-constant");
@@ -60,7 +59,6 @@ const Register = ({ history }) => {
     } catch (error) {
       toast.error("Des erreurs dans votre formulaire ! 🙁");
       const { violations } = error.response.data;
-      console.log(error.response.data);
       if (violations) {
         violations.forEach((violation) => {
           apiErrors[violation.propertyPath] = violation.message;

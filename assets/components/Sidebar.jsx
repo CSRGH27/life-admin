@@ -3,15 +3,16 @@ import { Description, ExitToApp } from "@material-ui/icons";
 import MenuIcon from "@material-ui/icons/Menu";
 import Axios from "axios";
 import React from "react";
-import { useEffect } from "react";
-
-import { useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { Link } from "react-router-dom";
 import { REG_URL_API } from "../config";
+import AuthContext from "../contexts/AuthContext";
 import AuthApi from "../services/AuthApi";
 
-const Sidebar = ({ history, onLogin }) => {
-  const sidebar = React.useRef(null);
+const Sidebar = ({ history }) => {
   const [userInfo, setUserInfo] = useState({ name: "", firstname: "" });
+  const sidebar = React.useRef(null);
+  const { setAuthenticated } = useContext(AuthContext);
 
   const fetchUserInfo = async () => {
     try {
@@ -24,9 +25,7 @@ const Sidebar = ({ history, onLogin }) => {
             firstname: data.firstname,
           });
         });
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -38,8 +37,7 @@ const Sidebar = ({ history, onLogin }) => {
   };
   let logout = () => {
     AuthApi.logout();
-    console.log(onLogin);
-    onLogin(false);
+    setAuthenticated(false);
     history.push("/login");
   };
   return (
@@ -62,9 +60,11 @@ const Sidebar = ({ history, onLogin }) => {
         </div>
         <div className="sidebar_ctn_menu">
           <div className="row_sidebar">
-            <Button style={{ color: "#fff" }} startIcon={<Description />}>
-              Fiche de paie
-            </Button>
+            <Link to="/wageslip">
+              <Button style={{ color: "#fff" }} startIcon={<Description />}>
+                Fiche de paie
+              </Button>
+            </Link>
             <Button
               style={{ color: "#fff" }}
               startIcon={<ExitToApp />}

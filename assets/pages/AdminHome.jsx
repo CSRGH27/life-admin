@@ -1,11 +1,11 @@
 import React from "react";
 import Sidebar from "../components/Sidebar";
 
-const AdminHome = ({  onLogin, history }) => {
+const AdminHome = ({ history }) => {
   return (
     <>
       <div className="admin_cte">
-        <Sidebar onLogin={onLogin} history={history}></Sidebar>
+        <Sidebar history={history}></Sidebar>
       </div>
     </>
   );
