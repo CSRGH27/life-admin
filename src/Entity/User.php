@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -72,6 +74,16 @@ class User implements UserInterface
      * @Assert\NotNull(message="Votre date de naissance doit etre renseigné")
      */
     private $birthdate;
+
+    /**
+     * @ORM\OneToMany(targetEntity=WageSlip::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $wageSlips;
+
+    public function __construct()
+    {
+        $this->wageSlips = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -183,6 +195,36 @@ class User implements UserInterface
     public function setBirthdate(\DateTimeInterface $birthdate): self
     {
         $this->birthdate = $birthdate;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|WageSlip[]
+     */
+    public function getWageSlips(): Collection
+    {
+        return $this->wageSlips;
+    }
+
+    public function addWageSlip(WageSlip $wageSlip): self
+    {
+        if (!$this->wageSlips->contains($wageSlip)) {
+            $this->wageSlips[] = $wageSlip;
+            $wageSlip->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWageSlip(WageSlip $wageSlip): self
+    {
+        if ($this->wageSlips->removeElement($wageSlip)) {
+            // set the owning side to null (unless already changed)
+            if ($wageSlip->getUser() === $this) {
+                $wageSlip->setUser(null);
+            }
+        }
 
         return $this;
     }

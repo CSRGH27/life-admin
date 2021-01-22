@@ -90,7 +90,7 @@ body {
   width: 100%;
   height: 50px;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
 }
 #sidebar_admin.top_sidebar_close {
@@ -128,8 +128,12 @@ body {
   border-radius: 10px;
   padding-left: 15px;
   transition: 0.3s all;
+  margin-top: 50px;
+}
+.row_sidebar button {
+  margin-bottom: 15px;
 }
 
-.row_sidebar:hover {
+.row_sidebar button:hover {
   background-color: rgba(255, 255, 255, 0.1);
 }

@@ -24,6 +24,7 @@ const Login = ({ history, onLogin }) => {
     e.preventDefault();
     try {
       await AuthApi.authenticate(credentials);
+      console.log(history);
       history.replace("/adminHome");
       onLogin(true);
       toast.success("Vous etes maintenant connecte ! 😎");

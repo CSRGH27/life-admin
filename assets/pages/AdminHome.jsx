@@ -1,7 +1,7 @@
 import React from "react";
 import Sidebar from "../components/Sidebar";
 
-const AdminHome = ({ authenticated, onLogin, history }) => {
+const AdminHome = ({  onLogin, history }) => {
   return (
     <>
       <div className="admin_cte">

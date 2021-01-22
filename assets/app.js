@@ -8,10 +8,28 @@ import "./styles/app.css";
 import { ToastContainer, toast } from "react-toastify";
 import Login from "./pages/Login";
 import AdminHome from "./pages/AdminHome";
+import WageSlip from "./pages/WageSlip";
 
 AuthApi.setup();
 const App = () => {
   const [authenticated, setAuthenticated] = useState(AuthApi.isAuthenticated());
+
+  const PrivateRoute = ({
+    component: Component,
+    path,
+    isAuthenticated,
+    onLogin,
+  }) => (
+    <Route
+      render={(props) =>
+        isAuthenticated ? (
+          <Component {...props} path={path} onLogin={onLogin} />
+        ) : (
+          <Redirect to="/login" />
+        )
+      }
+    />
+  );
 
   return (
     <HashRouter>
@@ -19,17 +37,12 @@ const App = () => {
         <Route exact path="/">
           {authenticated ? <Redirect to="/AdminHome" /> : <Login />}
         </Route>
-
-        <Route
+        <PrivateRoute
           path="/adminHome"
-          render={(props) => (
-            <AdminHome
-              authenticated={authenticated}
-              onLogin={setAuthenticated}
-              {...props}
-            />
-          )}
-        ></Route>
+          component={AdminHome}
+          onLogin={setAuthenticated}
+        ></PrivateRoute>
+        <PrivateRoute path="/wageslip" component={WageSlip}></PrivateRoute>
         <Route path="/register" component={Register}></Route>
         <Route
           path="/login"

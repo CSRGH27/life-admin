@@ -1,5 +1,5 @@
 import { Button } from "@material-ui/core";
-import { ExitToApp } from "@material-ui/icons";
+import { Description, ExitToApp } from "@material-ui/icons";
 import MenuIcon from "@material-ui/icons/Menu";
 import Axios from "axios";
 import React from "react";
@@ -8,7 +8,6 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { REG_URL_API } from "../config";
 import AuthApi from "../services/AuthApi";
-import UserApi from "../services/UserApi";
 
 const Sidebar = ({ history, onLogin }) => {
   const sidebar = React.useRef(null);
@@ -16,9 +15,7 @@ const Sidebar = ({ history, onLogin }) => {
 
   const fetchUserInfo = async () => {
     try {
-      const user = Axios.get(
-        REG_URL_API + "/" + window.localStorage.getItem("idUser")
-      )
+      Axios.get(REG_URL_API + "/" + window.localStorage.getItem("idUser"))
         .then((response) => response.data)
         .then((data) => {
           setUserInfo({
@@ -65,6 +62,9 @@ const Sidebar = ({ history, onLogin }) => {
         </div>
         <div className="sidebar_ctn_menu">
           <div className="row_sidebar">
+            <Button style={{ color: "#fff" }} startIcon={<Description />}>
+              Fiche de paie
+            </Button>
             <Button
               style={{ color: "#fff" }}
               startIcon={<ExitToApp />}
