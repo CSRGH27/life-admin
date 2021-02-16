@@ -1,11 +1,16 @@
+@font-face {
+  font-family: "NoirPro";
+  src: local("NoirPro"), url(./fonts/NoirPro-Regular.woff) format("woff");
+}
 body {
   background-color: #ffff;
   padding: 0;
   margin: 0;
-  font-family: "Open Sans", sans-serif;
+  font-family: "NoirPro", sans-serif;
   font-weight: 400;
   font-size: 16px;
 }
+
 .ctn_form_reg {
   background: linear-gradient(
     120deg,
@@ -83,33 +88,61 @@ body {
 }
 #sidebar_admin {
   height: 100vh;
-  width: 230px;
-  opacity: 0.7;
-  background-image: linear-gradient(to top, #30cfd0 0%, #330867 100%);
+  width: 280px;
+  background-color: #3c3766;
   transition: all 0.3s ease-in-out;
+  color: #9799ac;
 }
 .top_sidebar {
-  width: 100%;
-  height: 50px;
+  height: 90px;
+  background-color: rgba(0, 0, 0, 0.3);
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.top_sidebar h3 {
+  color: #fff;
+  text-transform: uppercase;
+  position: relative;
+  padding-right: 50px;
+}
+.top_sidebar h3::before {
+  content: "";
+  top: -12px;
+  position: absolute;
+  right: 0;
+  width: 45px;
+  height: 45px;
+  background: no-repeat center transparent
+    url(../styles/images/toucan-svgrepo-com.svg);
+  background-size: 45px;
 }
 #sidebar_admin.top_sidebar_close {
-  width: 50px;
+  width: 80px;
 }
 .top_sidebar svg {
   color: #fff;
   margin-right: 10px;
   cursor: pointer;
+  padding-right: 15px;
+}
+.border_sidebar {
+  width: 80%;
+  height: 1px;
+  background-color: #9799ac;
+  margin: auto;
+  display: block;
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
 .sidebar_ctn_name {
-  width: 100%;
   display: flex;
-  justify-content: space-around;
   height: 80px;
-  flex-direction: column;
   align-items: center;
+  justify-content: flex-start;
+  padding-left: 15px;
 }
 .img_member {
   width: 50px;
@@ -118,26 +151,51 @@ body {
   border-radius: 50%;
 }
 .sidebar_ctn_name span {
-  color: #fff;
-  margin-top: 10px;
+  padding-left: 15px;
 }
 .sidebar_ctn_menu {
   height: 100%;
-  padding: 15px 10px 30px 10px;
+  padding-left: 15px;
+  display: flex;
+  justify-content: flex-start;
 }
 .row_sidebar {
   width: 90%;
   border-radius: 10px;
-  padding-left: 15px;
   transition: 0.3s all;
-  margin-top: 50px;
+}
+.sidebar_ctn_menu_close .row_sidebar {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+.sidebar_ctn_menu_close .row_sidebar button,
+.sidebar_ctn_menu_close .row_sidebar a {
+  margin-bottom: 20px;
+}
+.sidebar_ctn_menu_close .row_sidebar svg {
+  transition: 0.3s all;
+}
+.sidebar_ctn_menu_close .row_sidebar svg:hover {
+  color: #00b378 !important;
 }
 .row_sidebar button {
-  margin-bottom: 15px;
+  width: 100%;
+  border-radius: 10px;
+  transition: 0.3s all;
+  display: flex;
+  justify-content: flex-start;
+}
+.row_sidebar button span {
+  transition: 0.3s all;
 }
 
 .row_sidebar button:hover {
   background-color: rgba(255, 255, 255, 0.1);
+}
+.row_sidebar button:hover > span {
+  color: #00b378;
 }
 .topbar {
   height: 60px;
@@ -148,13 +206,14 @@ body {
 }
 .admin_panel_left {
   width: 100%;
+  flex: 1;
 }
 .ctn_title_logo h2 {
   color: #6e609b;
   margin-left: 25px;
 }
 .app_page_title {
-  padding: 30px 0 30px 0px;
+  padding: 15px 0 15px 0px;
   background: #f1f4f6;
   width: 100%;
   display: flex;
@@ -202,14 +261,32 @@ body {
   justify-content: center;
   align-items: center;
 }
+.ctn_modal form {
+  padding: 15px;
+}
+.top_modal {
+  padding: 15px;
+  padding-bottom: 0;
+}
+.MuiInputBase-root {
+  color: #f50057 !important;
+}
 .inner_modal_form {
-  width: 350px;
+  outline: none;
+  width: 450px;
   height: auto;
   background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
-  border-radius: 25px;
-  padding: 25px;
+  border-radius: 15px;
   box-shadow: 0 0.46875rem 2.1875rem rgba(4, 9, 20, 0.03),
     0 0.9375rem 1.40625rem rgba(4, 9, 20, 0.03),
     0 0.25rem 0.53125rem rgba(4, 9, 20, 0.05),
     0 0.125rem 0.1875rem rgba(4, 9, 20, 0.03);
+}
+.transition-modal-title {
+  color: #fff;
+  text-align: left;
+  margin: 0;
+}
+#file_wage {
+  display: none;
 }

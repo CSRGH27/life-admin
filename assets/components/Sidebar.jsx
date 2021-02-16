@@ -11,6 +11,7 @@ import AuthApi from "../services/AuthApi";
 
 const Sidebar = ({ history }) => {
   const [userInfo, setUserInfo] = useState({ name: "", firstname: "" });
+  const [open, setOpen] = useState(true);
   const sidebar = React.useRef(null);
   const { setAuthenticated } = useContext(AuthContext);
 
@@ -34,6 +35,13 @@ const Sidebar = ({ history }) => {
 
   let handleClick = () => {
     sidebar.current.classList.toggle("top_sidebar_close");
+    if (!open) {
+      setTimeout(() => {
+        setOpen(!open);
+      }, 300);
+    } else {
+      setOpen(!open);
+    }
   };
   let logout = () => {
     AuthApi.logout();
@@ -44,34 +52,66 @@ const Sidebar = ({ history }) => {
     <>
       <div ref={sidebar} id="sidebar_admin">
         <div className="top_sidebar">
-          <MenuIcon
-            onClick={() => handleClick()}
-            fontSize="large"
-            style={{ fill: "#fff" }}
-          ></MenuIcon>
+          {open ? (
+            <>
+              <MenuIcon
+                onClick={() => handleClick()}
+                fontSize="large"
+                style={{ fill: "#fff" }}
+              ></MenuIcon>{" "}
+              <h3>Life Admin</h3>
+            </>
+          ) : (
+            <MenuIcon
+              onClick={() => handleClick()}
+              fontSize="large"
+              style={{ fill: "#fff" }}
+            ></MenuIcon>
+          )}
         </div>
         <div className="sidebar_ctn_name">
-          <div className="img_member"></div>
-          <span>
-            {userInfo.firstname}
-            &nbsp;
-            {userInfo.name}
-          </span>
+          {open ? (
+            <>
+              <div className="img_member"></div>
+              <span>
+                {userInfo.firstname}
+                &nbsp;
+                {userInfo.name}
+              </span>
+            </>
+          ) : (
+            <div className="img_member"></div>
+          )}
         </div>
-        <div className="sidebar_ctn_menu">
+        <span className="border_sidebar"></span>
+        <div className={open ? "sidebar_ctn_menu" : "sidebar_ctn_menu_close"}>
           <div className="row_sidebar">
-            <Link to="/wageslip">
-              <Button style={{ color: "#fff" }} startIcon={<Description />}>
-                Fiche de paie
+            {open ? (
+              <Link to="/wageslip">
+                <Button style={{ color: "#fff" }} startIcon={<Description />}>
+                  Fiche de paie
+                </Button>
+              </Link>
+            ) : (
+              <Link to="/wageslip">
+                <Description style={{ color: "#fff" }} fontSize="large" />
+              </Link>
+            )}
+            {open ? (
+              <Button
+                style={{ color: "#fff" }}
+                startIcon={<ExitToApp />}
+                onClick={() => logout()}
+              >
+                Deconnexion
               </Button>
-            </Link>
-            <Button
-              style={{ color: "#fff" }}
-              startIcon={<ExitToApp />}
-              onClick={() => logout()}
-            >
-              Deconnexion
-            </Button>
+            ) : (
+              <ExitToApp
+                style={{ color: "#fff", cursor: "pointer" }}
+                fontSize="large"
+                onClick={() => logout()}
+              />
+            )}
           </div>
         </div>
       </div>

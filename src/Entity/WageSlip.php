@@ -55,6 +55,11 @@ class WageSlip
      */
     private $user;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $pdfFile;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -140,6 +145,18 @@ class WageSlip
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getPdfFile(): ?string
+    {
+        return $this->pdfFile;
+    }
+
+    public function setPdfFile(string $pdfFile): self
+    {
+        $this->pdfFile = $pdfFile;
 
         return $this;
     }
