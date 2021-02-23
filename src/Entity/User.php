@@ -42,13 +42,13 @@ class User implements UserInterface
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
-     * @Assert\NotBlank(message="Le mot de passe doit etre renseigné")
+     * @Assert\NotBlank(message="Le mot de passe doit être renseigné")
      */
     private $password;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="Votre prénom doit etre renseigné")
+     * @Assert\NotBlank(message="Votre prénom doit être renseigné")
      * @Assert\Length(min=2,
      *                minMessage="Votre prénom ne doit faire au moins {{ limit }} caractères" ,
      *                max=20,
@@ -60,7 +60,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="Votre nom doit etre renseigné")
+     * @Assert\NotBlank(message="Votre nom doit être renseigné")
      * @Assert\Length(min=2,
      *                minMessage="Votre nom ne doit faire au moins {{ limit }} caractères" ,
      *                max=20,
@@ -71,7 +71,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="date")
-     * @Assert\NotNull(message="Votre date de naissance doit etre renseigné")
+     * @Assert\NotNull(message="Votre date de naissance doit être renseigné")
      */
     private $birthdate;
 

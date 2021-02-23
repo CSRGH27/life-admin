@@ -5,6 +5,8 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\WageSlipRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ApiResource()
@@ -21,16 +23,27 @@ class WageSlip
 
     /**
      * @ORM\Column(type="float")
+     * @Assert\NotNull(message="Le salaire doit être renseigné")
+     * @Assert\Type(
+     *     type="float",
+     *     message="{{ value }} doit être numérique."
+     * )
      */
     private $Amount;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotNull(message="L'entreprise doit être renseigné")
      */
     private $company;
 
     /**
      * @ORM\Column(type="float")
+     * @Assert\NotNull(message="Les taxes doivent être renseigné")
+     * @Assert\Type(
+     *     type="float",
+     *     message="{{ value }} doit être numérique."
+     * )
      */
     private $contributions;
 

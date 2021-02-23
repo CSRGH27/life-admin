@@ -34,6 +34,7 @@
     "i": "^0.3.6",
     "jquery": "^3.5.1",
     "jwt-decode": "^3.1.2",
+    "react-dropzone": "^11.3.1",
     "react-router-dom": "^5.2.0",
     "react-tiger-transition": "^4.1.2",
     "react-toastify": "^6.1.0",

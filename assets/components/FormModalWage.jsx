@@ -6,12 +6,13 @@ import {
   Input,
   InputAdornment,
   InputLabel,
-  makeStyles,
   Modal,
   TextField,
 } from "@material-ui/core";
 import { CloudUploadOutlined } from "@material-ui/icons";
 import React, { useState } from "react";
+import Animations from "../services/Animations";
+import DropZone from "./DropZone";
 const FormModal = ({ open, setOpen, title }) => {
   const [errors, setErrors] = useState({
     amount: "",
@@ -27,8 +28,21 @@ const FormModal = ({ open, setOpen, title }) => {
     date: "",
     file: "",
   });
-  const handleSubmit = () => {};
-  const handleChange = () => {};
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const apiErrors = {};
+    if (data.date === "") {
+      Animations.errorForm(".inner_modal_form");
+    } else {
+    }
+  };
+
+  const handleChange = ({ currentTarget }) => {
+    const { name, value } = currentTarget;
+    setData({ ...data, [name]: value });
+    console.log(data);
+  };
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -95,23 +109,12 @@ const FormModal = ({ open, setOpen, title }) => {
               color="secondary"
               label="Date salaire (1er jour du mois)"
               type="date"
-              defaultValue="2017-05-24"
-              value={data.data}
+              defaultValue={data.date}
               InputLabelProps={{
                 shrink: true,
               }}
             />
-
-            <Button
-              variant="contained"
-              color="secondary"
-              component="label"
-              startIcon={<CloudUploadOutlined />}
-              style={{ marginTop: "20px" }}
-            >
-              Upload
-              <input type="file" hidden />
-            </Button>
+            <DropZone></DropZone>
           </form>
         </div>
       </Grow>
