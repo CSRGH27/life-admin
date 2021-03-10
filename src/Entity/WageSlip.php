@@ -9,7 +9,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *  denormalizationContext={"disable_type_enforcement"=true}
+ * )
+ *  
+ * 
  * @ORM\Entity(repositoryClass=WageSlipRepository::class)
  */
 class WageSlip
@@ -25,7 +29,7 @@ class WageSlip
      * @ORM\Column(type="float")
      * @Assert\NotNull(message="Le salaire doit être renseigné")
      * @Assert\Type(
-     *     type="float",
+     *     type="numeric",
      *     message="{{ value }} doit être numérique."
      * )
      */
@@ -33,15 +37,15 @@ class WageSlip
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotNull(message="L'entreprise doit être renseigné")
+     * @Assert\NotNull(message="L'entreprise doit être renseignée.")
      */
     private $company;
 
     /**
      * @ORM\Column(type="float")
-     * @Assert\NotNull(message="Les taxes doivent être renseigné")
+     * @Assert\NotNull(message="Les taxes doivent être renseignées.")
      * @Assert\Type(
-     *     type="float",
+     *     type="numeric",
      *     message="{{ value }} doit être numérique."
      * )
      */
@@ -57,10 +61,6 @@ class WageSlip
      */
     private $dateUpd;
 
-    /**
-     * @ORM\Column(type="date")
-     */
-    private $date;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="wageSlips")
@@ -70,8 +70,36 @@ class WageSlip
 
     /**
      * @ORM\Column(type="string", length=255)
+     * Assert\File(
+     *     mimeTypes = {"application/pdf", "application/x-pdf"},
+     *     mimeTypesMessage = "Format autorisé PDF"
+     * )
      */
     private $pdfFile;
+
+    /**
+     * @ORM\Column(type="integer")
+     * @Assert\Type(type="numeric", message="{{ value }} doit être un numérique !")
+     * @Assert\NotNull(message="Le mois doit être renseigné.")
+     * @Assert\Range(
+     *      min = 1,
+     *      max = 12,
+     *      notInRangeMessage = "Entrez un chiffre compris entre {{ min }} et {{ max }}.",
+     * )
+     */
+    private $month;
+
+    /**
+     * @ORM\Column(type="integer")
+     * @Assert\Type(type="numeric", message="{{ value }} doit être un numérique !")
+     * @Assert\NotNull(message="L'année doit être renseignée.")
+     * @Assert\Range(
+     *      min = 1950,
+     *      max = 3000,
+     *      notInRangeMessage = "Entrez une année cohérente.",
+     * )
+     */
+    private $year;
 
     public function getId(): ?int
     {
@@ -83,7 +111,7 @@ class WageSlip
         return $this->Amount;
     }
 
-    public function setAmount(float $Amount): self
+    public function setAmount($Amount): self
     {
         $this->Amount = $Amount;
 
@@ -107,7 +135,7 @@ class WageSlip
         return $this->contributions;
     }
 
-    public function setContributions(float $contributions): self
+    public function setContributions($contributions): self
     {
         $this->contributions = $contributions;
 
@@ -138,18 +166,6 @@ class WageSlip
         return $this;
     }
 
-    public function getDate(): ?\DateTimeInterface
-    {
-        return $this->date;
-    }
-
-    public function setDate(\DateTimeInterface $date): self
-    {
-        $this->date = $date;
-
-        return $this;
-    }
-
     public function getUser(): ?User
     {
         return $this->user;
@@ -170,6 +186,30 @@ class WageSlip
     public function setPdfFile(string $pdfFile): self
     {
         $this->pdfFile = $pdfFile;
+
+        return $this;
+    }
+
+    public function getMonth(): ?int
+    {
+        return $this->month;
+    }
+
+    public function setMonth($month): self
+    {
+        $this->month = $month;
+
+        return $this;
+    }
+
+    public function getYear(): ?int
+    {
+        return $this->year;
+    }
+
+    public function setYear($year): self
+    {
+        $this->year = $year;
 
         return $this;
     }

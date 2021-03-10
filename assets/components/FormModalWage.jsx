@@ -9,38 +9,48 @@ import {
   Modal,
   TextField,
 } from "@material-ui/core";
-import { CloudUploadOutlined } from "@material-ui/icons";
 import React, { useState } from "react";
 import Animations from "../services/Animations";
-import DropZone from "./DropZone";
-const FormModal = ({ open, setOpen, title }) => {
+import WageApi from "../services/WageApi";
+import SaveIcon from "@material-ui/icons/Save";
+import { error } from "jquery";
+
+const FormModal = ({ open, setOpen, title, props }) => {
   const [errors, setErrors] = useState({
-    amount: "",
+    Amount: "",
     company: "",
-    contribution: "",
-    date: "",
-    file: "",
+    contributions: "",
+    month: "",
+    year: "",
   });
   const [data, setData] = useState({
-    amount: "",
+    Amount: "",
     company: "",
-    contribution: "",
-    date: "",
-    file: "",
+    contributions: "",
+    month: "",
+    year: "",
   });
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const apiErrors = {};
-    if (data.date === "") {
-      Animations.errorForm(".inner_modal_form");
-    } else {
+    try {
+      await WageApi.create(data);
+      props.history.replace("/wageslip");
+    } catch ({ response }) {
+      const violation = response.data.violations;
+      if (violation) {
+        const apiErrors = {};
+        violation.forEach(({ propertyPath, message }) => {
+          apiErrors[propertyPath] = message;
+        });
+        setErrors(apiErrors);
+        console.log(errors);
+      }
     }
   };
 
   const handleChange = ({ currentTarget }) => {
     const { name, value } = currentTarget;
     setData({ ...data, [name]: value });
-    console.log(data);
   };
 
   const handleClose = () => {
@@ -67,54 +77,130 @@ const FormModal = ({ open, setOpen, title }) => {
           </div>
           <form onSubmit={handleSubmit}>
             <FormControl fullWidth>
-              <InputLabel required color="secondary" htmlFor="amount">
-                Montant de votre salaire net
-              </InputLabel>
-              <Input
-                id="amount"
-                value={data.amount}
-                color="secondary"
-                name="amount"
-                onChange={handleChange}
-                endAdornment={<InputAdornment position="end">€</InputAdornment>}
-              />
+              {errors.Amount ? (
+                <TextField
+                  error
+                  helperText={errors.Amount}
+                  id="Amount"
+                  value={data.Amount}
+                  color="secondary"
+                  name="Amount"
+                  label="Montant de votre salaire net"
+                  onChange={handleChange}
+                />
+              ) : (
+                <TextField
+                  id="Amount"
+                  value={data.Amount}
+                  color="secondary"
+                  name="Amount"
+                  label="Montant de votre salaire net"
+                  onChange={handleChange}
+                />
+              )}
             </FormControl>
-            <TextField
-              fullWidth
-              value={data.company}
-              required
-              onChange={handleChange}
-              label="Nom de l'entreprise"
-              name="company"
-              color="secondary"
-            />
+            {errors.company ? (
+              <TextField
+                error
+                helperText={errors.company}
+                fullWidth
+                value={data.company}
+                required
+                onChange={handleChange}
+                label="Nom de l'entreprise"
+                name="company"
+                color="secondary"
+              />
+            ) : (
+              <TextField
+                fullWidth
+                value={data.company}
+                required
+                onChange={handleChange}
+                label="Nom de l'entreprise"
+                name="company"
+                color="secondary"
+              />
+            )}
+
             <FormControl fullWidth>
-              <InputLabel required color="secondary" htmlFor="contribution">
-                Montant de vos charge sociales
-              </InputLabel>
-              <Input
-                id="contribution"
-                value={data.contribution}
-                color="secondary"
-                name="contribution"
-                onChange={handleChange}
-                endAdornment={<InputAdornment position="end">€</InputAdornment>}
-              />
+              {errors.contributions ? (
+                <TextField
+                  error
+                  helperText={errors.contributions}
+                  id="contributions"
+                  value={data.contributions}
+                  color="secondary"
+                  name="contributions"
+                  onChange={handleChange}
+                  label="Montant de vos charge sociales"
+                />
+              ) : (
+                <TextField
+                  id="contributions"
+                  value={data.contributions}
+                  color="secondary"
+                  name="contributions"
+                  onChange={handleChange}
+                  label="Montant de vos charge sociales"
+                />
+              )}
             </FormControl>
-            <TextField
-              margin="dense"
-              fullWidth
-              id="date"
-              onChange={handleChange}
+            <FormControl fullWidth>
+              {errors.month ? (
+                <TextField
+                  error
+                  helperText={errors.month}
+                  id="month"
+                  value={data.month}
+                  color="secondary"
+                  name="month"
+                  onChange={handleChange}
+                  label="Mois du salaire"
+                />
+              ) : (
+                <TextField
+                  id="month"
+                  value={data.month}
+                  color="secondary"
+                  name="month"
+                  onChange={handleChange}
+                  label="Mois du salaire"
+                />
+              )}
+            </FormControl>
+            <FormControl fullWidth>
+              {errors.year ? (
+                <TextField
+                  error
+                  helperText={errors.year}
+                  id="year"
+                  value={data.year}
+                  color="secondary"
+                  name="year"
+                  onChange={handleChange}
+                  label="Année du salaire"
+                />
+              ) : (
+                <TextField
+                  id="year"
+                  value={data.year}
+                  color="secondary"
+                  name="year"
+                  onChange={handleChange}
+                  label="Année du salaire"
+                />
+              )}
+            </FormControl>
+            <Button
+              type="submit"
+              className="button_form"
+              variant="contained"
               color="secondary"
-              label="Date salaire (1er jour du mois)"
-              type="date"
-              defaultValue={data.date}
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-            <DropZone></DropZone>
+              startIcon={<SaveIcon />}
+            >
+              Créer
+            </Button>
           </form>
         </div>
       </Grow>
