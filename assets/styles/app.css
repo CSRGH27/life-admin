@@ -87,11 +87,12 @@ body {
   justify-content: center;
 }
 #sidebar_admin {
-  height: 100vh;
+  height: auto;
   width: 280px;
   background-color: #3c3766;
   transition: all 0.3s ease-in-out;
   color: #9799ac;
+  min-height: 100vh;
 }
 .top_sidebar {
   height: 90px;
@@ -154,7 +155,6 @@ body {
   padding-left: 15px;
 }
 .sidebar_ctn_menu {
-  height: 100%;
   padding-left: 15px;
   display: flex;
   justify-content: flex-start;
@@ -224,8 +224,10 @@ body {
   padding-left: 30px;
 }
 .app_page_right {
-  display: flex;
   margin-right: 25px;
+  width: 470px;
+  display: flex;
+  justify-content: space-between;
 }
 
 .app_page_right button {
@@ -263,6 +265,16 @@ body {
 }
 .ctn_modal form {
   padding: 15px;
+  animation: "outAnimation 270ms ease-out";
+}
+@keyframes outAnimation {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
 }
 .top_modal {
   padding: 15px;
@@ -336,4 +348,118 @@ body {
 form .button_form {
   margin-top: 15px;
   text-align: right;
+}
+.ctn_btn_form {
+  display: flex;
+  justify-content: flex-end;
+}
+.ctn_wages {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: start;
+  padding-top: 25px;
+  flex-wrap: wrap;
+}
+.ctn_loader_wage {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: start;
+  padding-top: 25px;
+  flex-wrap: wrap;
+  margin-left: 20px;
+}
+.card_wage_loader {
+  width: 300px;
+  height: 350px;
+  margin: 10px 20px;
+}
+.card_wage {
+  width: 300px;
+  height: 350px;
+  box-shadow: 0 0.46875rem 2.1875rem #04091408, 0 0.9375rem 1.40625rem #04091408,
+    0 0.25rem 0.53125rem #0409140d, 0 0.125rem 0.1875rem #04091408;
+  border-radius: 0.25rem;
+  background-color: #fff;
+  margin: 10px 20px;
+}
+.ctn_name_company {
+  background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+  display: inline;
+  padding: 5px;
+  border-radius: 8px;
+  box-shadow: 0 0.46875rem 2.1875rem #04091408, 0 0.9375rem 1.40625rem #04091408,
+    0 0.25rem 0.53125rem #0409140d, 0 0.125rem 0.1875rem #04091408;
+  border-radius: 0.25rem;
+  color: #fff;
+}
+.card_wage_top {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 15px 0px 15px;
+}
+.line_info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 30px;
+}
+.ctn_pdf_wage {
+  width: 100%;
+  height: 145px;
+}
+.ctn_info_wage {
+  padding: 5px 15px 5px 15px;
+  background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+  color: #fff;
+}
+.ctn_wage_action {
+  height: auto;
+  display: flex;
+  justify-content: space-around;
+  padding-top: 15px;
+}
+.ctn_wage_action svg {
+  color: #fff;
+}
+.icon_delete {
+  width: 20px;
+  height: 20px;
+  background-color: #f44336;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.icon_delete:hover {
+  opacity: 0.5;
+}
+.icon_delete {
+  width: 35px;
+  height: 35px;
+  background-color: #f44336;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.icon_modify {
+  width: 35px;
+  height: 35px;
+  background-color: #52c41a;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.icon_download {
+  width: 35px;
+  height: 35px;
+  background-color: #038fde;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

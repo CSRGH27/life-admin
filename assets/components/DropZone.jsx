@@ -1,7 +1,10 @@
-import React from "react";
+import { Button } from "@material-ui/core";
+import React, { useState, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
+import SaveIcon from "@material-ui/icons/Save";
 
-const DropZone = ({ data, setFile }) => {
+const DropZone = () => {
+  const [pdf, setPdf] = useState([]);
   const {
     acceptedFiles,
     fileRejections,
@@ -18,15 +21,14 @@ const DropZone = ({ data, setFile }) => {
   ));
 
   function onDrop(acceptedFiles) {
-    setFile({
-      file: acceptedFiles.map((file) =>
-        Object.assign(file, {
-          preview: URL.createObjectURL(file),
-        })
-      ),
-    });
+    console.log(acceptedFiles);
+    setPdf(acceptedFiles);
   }
-
+  function handleSubmit() {
+    const data = new FormData();
+    data.append("file", pdf);
+    console.log(data);
+  }
   const fileRejectionItems = fileRejections.map(({ file, errors }) => (
     <li key={file.path}>
       {file.path}
@@ -41,19 +43,32 @@ const DropZone = ({ data, setFile }) => {
   ));
 
   return (
-    <section className="container_drop">
-      <div {...getRootProps({ className: "dropzone" })}>
-        <input {...getInputProps()} />
-        <p>Deposer votre feuille de salaire</p>
-        <em>Seul les fichier *.pdf sont acceptes</em>
+    <form onSubmit={handleSubmit}>
+      <section className="container_drop">
+        <div {...getRootProps({ className: "dropzone" })}>
+          <input {...getInputProps()} />
+          <p>Deposer votre feuille de salaire</p>
+          <em>Seul les fichier *.pdf sont acceptes</em>
+        </div>
+        <aside>
+          <h4 className="dropzone_title">Fichiers acceptés</h4>
+          <ul className="list_file_dropzone_check">{files}</ul>
+          <h4 className="dropzone_title">Fichiers rejetés</h4>
+          <ul className="list_file_dropzone_uncheck">{fileRejectionItems}</ul>
+        </aside>
+      </section>
+      <div className="ctn_btn_form">
+        <Button
+          type="submit"
+          className="button_form"
+          variant="contained"
+          color="secondary"
+          startIcon={<SaveIcon />}
+        >
+          Enregistrer
+        </Button>
       </div>
-      <aside>
-        <h4 className="dropzone_title">Fichiers acceptés</h4>
-        <ul className="list_file_dropzone_check">{files}</ul>
-        <h4 className="dropzone_title">Fichiers rejetés</h4>
-        <ul className="list_file_dropzone_uncheck">{fileRejectionItems}</ul>
-      </aside>
-    </section>
+    </form>
   );
 };
 

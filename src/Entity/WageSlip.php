@@ -79,8 +79,7 @@ class WageSlip
 
     /**
      * @ORM\Column(type="integer")
-     * @Assert\Type(type="numeric", message="{{ value }} doit être un numérique !")
-     * @Assert\NotNull(message="Le mois doit être renseigné.")
+     * @Assert\Type(type="numeric", message="{{ value }} doit être un chiffre !")
      * @Assert\Range(
      *      min = 1,
      *      max = 12,
@@ -91,12 +90,12 @@ class WageSlip
 
     /**
      * @ORM\Column(type="integer")
-     * @Assert\Type(type="numeric", message="{{ value }} doit être un numérique !")
+     * @Assert\Type(type="numeric", message="{{ value }} doit être un chiffre !")
      * @Assert\NotNull(message="L'année doit être renseignée.")
      * @Assert\Range(
      *      min = 1950,
      *      max = 3000,
-     *      notInRangeMessage = "Entrez une année cohérente.",
+     *      notInRangeMessage = "Entrez une année cohérente (1950 - 2021).",
      * )
      */
     private $year;
