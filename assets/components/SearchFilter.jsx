@@ -26,3 +26,4 @@ const SearchFilter = ({ wages, setFilterWages }) => {
 };
 
 export default SearchFilter;
+      
