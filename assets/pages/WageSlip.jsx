@@ -29,6 +29,7 @@ const WageSlip = ({ history }) => {
     try {
       await WageApi.deleteWage(id);
       fetchWage();
+      toast.warning("Fiche de salaire supprimée");
     } catch (error) {
       toast;
     }
