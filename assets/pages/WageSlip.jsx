@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import AppPageTitle from "../components/AppPageTitle";
+import DropZone from "../components/DropZone";
 import FormModal from "../components/FormModalWage";
 import Sidebar from "../components/Sidebar";
 import CardWageLoader from "../loaders/CardWageLoader";
@@ -67,7 +68,9 @@ const WageSlip = ({ history }) => {
                   <div className="card_wage_top">
                     <div className="ctn_name_company">{item.company}</div>
                   </div>
-                  <div className="ctn_pdf_wage"></div>
+                  <div className="ctn_pdf_wage">
+                    <DropZone />
+                  </div>
                   <div className="ctn_info_wage">
                     <div className="line_info">
                       <h3>Salaire: </h3>

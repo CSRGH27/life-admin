@@ -11,7 +11,7 @@ return new class extends DefaultDeployer
             ->deployDir('/var/www/life-admin')
             ->repositoryUrl('git@github.com:CSRGH27/life-admin.git')
             ->sharedFilesAndDirs(['.env', 'config/jwt'])
-            ->repositoryBranch('master')
+            ->repositoryBranch('develop')
             ->symfonyEnvironment('prod');
     }
 

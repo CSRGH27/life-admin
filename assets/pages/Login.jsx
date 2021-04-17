@@ -4,15 +4,16 @@ import "csshake/dist/csshake.min.css";
 import $ from "jquery";
 import { toast } from "react-toastify";
 import AuthApi from "../services/AuthApi";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import { KeyboardArrowLeft } from "@material-ui/icons";
 import AuthContext from "../contexts/AuthContext";
 
-const Login = ({ history }) => {
+const Login = () => {
   const [credentials, setCredentials] = useState({
     username: "",
     password: "",
   });
+  let history = useHistory();
 
   const { setAuthenticated } = useContext(AuthContext);
 
