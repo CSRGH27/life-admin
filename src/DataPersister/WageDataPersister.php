@@ -29,6 +29,7 @@ final class WageDataPersister implements ContextAwareDataPersisterInterface
 
     public function persist($data, array $context = [])
     {
+
         $user = $this->security->getUser();
 
         $data->setUser($user);

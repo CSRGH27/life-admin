@@ -36,6 +36,7 @@
     "jwt-decode": "^3.1.2",
     "react-content-loader": "^6.0.2",
     "react-dropzone": "^11.3.1",
+    "react-pdf": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-tiger-transition": "^4.1.2",
     "react-toastify": "^6.1.0",

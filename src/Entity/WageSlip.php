@@ -3,7 +3,9 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Controller\WageDisplayControlle;
 use App\Repository\WageSlipRepository;
+use Doctrine\DBAL\Types\DecimalType;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\File;
@@ -11,10 +13,27 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ApiResource(
- *  denormalizationContext={"disable_type_enforcement"=true}
- * )
- *  
- * 
+ *      attributes={
+ *          "order"={"year" : "DESC", "month": "DESC"}
+ *      },
+ *      collectionOperations={
+ *      "get",
+ *      "post"
+ *      },
+ *      itemOperations={
+ *          "delete",
+ *          "put",
+ *          "patch",
+ *          "get"={},
+ *          "pdf"={
+ *              "method" = "POST",
+ *              "path" = "wage_slips/{id}/pdf",
+ *              "deserialize" = false,
+ *              "controller" = App\Controller\PostPdfController::class,
+ *          }
+ *      }
+ *  )
+ * @Vich\Uploadable()
  * @ORM\Entity(repositoryClass=WageSlipRepository::class)
  */
 class WageSlip
@@ -27,7 +46,7 @@ class WageSlip
     private $id;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="decimal")
      * @Assert\NotNull(message="Le salaire doit être renseigné")
      * @Assert\Type(
      *     type="numeric",
@@ -43,7 +62,7 @@ class WageSlip
     private $company;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="decimal")
      * @Assert\NotNull(message="Les taxes doivent être renseignées.")
      * @Assert\Type(
      *     type="numeric",
@@ -64,20 +83,14 @@ class WageSlip
 
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="wageSlips")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="wageSlips", cascade="persist")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
 
-    /**
-     * @var MediaObject|null
-     * @ORM\ManyToOne(targetEntity="App\Entity\MediaObject")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $pdfFile;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="decimal")
      * @Assert\Type(type="numeric", message="{{ value }} doit être un chiffre !")
      * @Assert\Range(
      *      min = 1,
@@ -88,7 +101,7 @@ class WageSlip
     private $month;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="decimal")
      * @Assert\Type(type="numeric", message="{{ value }} doit être un chiffre !")
      * @Assert\NotNull(message="L'année doit être renseignée.")
      * @Assert\Range(
@@ -99,15 +112,36 @@ class WageSlip
      */
     private $year;
 
+
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $filePath;
+
+    /**
+     * @var File|null
+     * @Vich\UploadableField(mapping = "pdf_wageSlip", fileNameProperty = "filePath")
+     */
+    private $file;
+
+
+    /**
+     * @var string|null
+     */
+    private $fileUrl;
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getAmount(): ?float
+
+    public function getAmount()
     {
         return $this->Amount;
     }
+
 
     public function setAmount($Amount): self
     {
@@ -128,7 +162,8 @@ class WageSlip
         return $this;
     }
 
-    public function getContributions(): ?float
+
+    public function getContributions()
     {
         return $this->contributions;
     }
@@ -176,19 +211,7 @@ class WageSlip
         return $this;
     }
 
-    public function getPdfFile(): ?string
-    {
-        return $this->pdfFile;
-    }
-
-    public function setPdfFile(string $pdfFile): self
-    {
-        $this->pdfFile = $pdfFile;
-
-        return $this;
-    }
-
-    public function getMonth(): ?int
+    public function getMonth()
     {
         return $this->month;
     }
@@ -200,7 +223,7 @@ class WageSlip
         return $this;
     }
 
-    public function getYear(): ?int
+    public function getYear()
     {
         return $this->year;
     }
@@ -208,6 +231,66 @@ class WageSlip
     public function setYear($year): self
     {
         $this->year = $year;
+
+        return $this;
+    }
+
+    public function getFilePath(): ?string
+    {
+        return $this->filePath;
+    }
+
+    public function setFilePath(?string $filePath): self
+    {
+        $this->filePath = $filePath;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of file
+     *
+     * @return  File|null
+     */
+    public function getFile(): ?File
+    {
+        return $this->file;
+    }
+
+    /**
+     * Set the value of file
+     *
+     * @param  File|null  $file
+     *
+     * @return  self
+     */
+    public function setFile($file): self
+    {
+        $this->file = $file;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of fileUrl
+     *
+     * @return  string|null
+     */
+    public function getFileUrl(): ?string
+    {
+        return $this->fileUrl;
+    }
+
+    /**
+     * Set the value of fileUrl
+     *
+     * @param  string|null  $fileUrl
+     *
+     * @return  self
+     */
+    public function setFileUrl($fileUrl): self
+    {
+        $this->fileUrl = $fileUrl;
 
         return $this;
     }

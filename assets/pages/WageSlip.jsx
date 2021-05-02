@@ -1,6 +1,6 @@
 import { Create, Delete, Description, GetApp } from "@material-ui/icons";
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Document, Page, pdfjs } from "react-pdf";
 import { toast } from "react-toastify";
 import AppPageTitle from "../components/AppPageTitle";
 import DropZone from "../components/DropZone";
@@ -10,6 +10,7 @@ import CardWageLoader from "../loaders/CardWageLoader";
 import WageApi from "../services/WageApi";
 
 const WageSlip = ({ history }) => {
+  pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
   const [wages, setWages] = useState([]);
   const [filterWage, setFilterWages] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -69,7 +70,16 @@ const WageSlip = ({ history }) => {
                     <div className="ctn_name_company">{item.company}</div>
                   </div>
                   <div className="ctn_pdf_wage">
-                    <DropZone />
+                    {item.fileUrl ? (
+                      <Document
+                        error="Impossible d'afficher le pdf"
+                        file={item.fileUrl}
+                      >
+                        <Page width={270} pageNumber={1}></Page>
+                      </Document>
+                    ) : (
+                      <DropZone id={item.id} fetchWage={fetchWage} />
+                    )}
                   </div>
                   <div className="ctn_info_wage">
                     <div className="line_info">
@@ -100,9 +110,14 @@ const WageSlip = ({ history }) => {
                     >
                       <Create />
                     </div>
-                    <div className="icon_download">
+                    <a
+                      rel="noreferrer"
+                      target="_blank"
+                      href={item.fileUrl}
+                      className="icon_download"
+                    >
                       <GetApp />
-                    </div>
+                    </a>
                   </div>
                 </div>
               ))}

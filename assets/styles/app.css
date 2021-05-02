@@ -413,6 +413,7 @@ form .button_form {
   height: 115px;
   padding: 0 10px;
   margin: 15px 0;
+  overflow: hidden;
 }
 .ctn_pdf_wage form {
   height: 100%;

@@ -40,7 +40,9 @@ const FormModal = ({
       try {
         await WageApi.update(id, data);
         toast.success("Fiche de salaire modifiée");
+        setEditing(false);
         setOpen(false);
+        setData([]);
         fetchWage();
       } catch (error) {
         toast.error("probleme lors de la modicfication de la fiche de salaire");

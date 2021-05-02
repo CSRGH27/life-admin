@@ -15,7 +15,7 @@ const Register = ({ history }) => {
       $(".modal_form_register").removeClass("shake-horizontal shake-constant");
     }, 500);
   };
-  console.log(history);
+
   const [credentials, setCredentials] = useState({
     email: "",
     firstname: "",

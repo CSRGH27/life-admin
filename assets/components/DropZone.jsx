@@ -1,17 +1,10 @@
-import { Button } from "@material-ui/core";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useDropzone } from "react-dropzone";
-import SaveIcon from "@material-ui/icons/Save";
 import { toast } from "react-toastify";
+import WageApi from "../services/WageApi";
 
-const DropZone = () => {
-  const [pdf, setPdf] = useState([]);
-  const {
-    acceptedFiles,
-    fileRejections,
-    getRootProps,
-    getInputProps,
-  } = useDropzone({
+const DropZone = ({ id, fetchWage }) => {
+  const { getRootProps, getInputProps } = useDropzone({
     accept: ".pdf",
     maxFiles: 1,
     maxSize: 5242880,
@@ -20,7 +13,13 @@ const DropZone = () => {
   });
 
   function onDrop(acceptedFiles) {
-    console.log(acceptedFiles);
+    try {
+      WageApi.updateWagePdf(id, acceptedFiles).then(() => fetchWage());
+
+      toast.success("PDF uploadé");
+    } catch (error) {
+      toast.error("Erreur lors de l'uplaod");
+    }
   }
 
   function onReject(file) {

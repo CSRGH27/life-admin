@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
- * @ApiResource
+ * @ApiResource()
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @UniqueEntity("email",
  *      message="l'email {{ value }} est deja utilise")

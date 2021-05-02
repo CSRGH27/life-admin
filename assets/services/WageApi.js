@@ -10,7 +10,7 @@ function deleteWage(id) {
 }
 
 function findAll() {
-  return axios.get(WAGE_API).then((response) => response.data["hydra:member"]);
+  return axios.get(WAGE_API).then((response) => response.data);
 }
 async function find(id) {
   return axios.get(WAGE_API + "/" + id).then((response) => {
@@ -24,10 +24,36 @@ function update(id, wage) {
     ...wage,
   });
 }
+
+function updateWagePdf(id, pdf) {
+  const formData = new FormData();
+  formData.append("pdf", pdf[0]);
+  return axios({
+    method: "post",
+    url: WAGE_API + "/" + id + "/pdf",
+    data: formData,
+    headers: {
+      "Content-Type": "multipart/form-data",
+      "Access-Control-Allow-Origin": "localhost",
+    },
+  });
+}
+
+function updateDisplay(id) {
+  return axios.post(WAGE_API + "/" + id + "/display", {});
+}
+function updatePdf(id, pdf) {
+  return axios.put(WAGE_API + "/" + id, {
+    ...pdf,
+  });
+}
 export default {
   create,
   findAll,
   deleteWage,
   find,
   update,
+  updatePdf,
+  updateDisplay,
+  updateWagePdf,
 };
